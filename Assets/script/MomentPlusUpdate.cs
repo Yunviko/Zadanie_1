@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerControllerUpdate : MonoBehaviour
 {
-    public float moveSpeed = 100;
+    public float moveSpeed = 200;
     public float jumpForce = 50;
     public float moveInput = 0;
     public bool jumpPressed = false;
@@ -10,12 +10,13 @@ public class PlayerControllerUpdate : MonoBehaviour
     public bool sprintPressed = false;  
     public int jumpCount = 0;
     public int maxJumps = 2;
-
+    public bool ePressed = false;
 
 
     public Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
     public GroundChecker groundChecker;
+    [SerializeField] private Animator animator;
 
     void Start()
     {
@@ -62,7 +63,32 @@ public class PlayerControllerUpdate : MonoBehaviour
         }
         else
         {
-            moveSpeed = 50;
+            moveSpeed = 200;
+        }
+        
+        if (moveInput!= 0)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
+        if (moveInput > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (moveInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        if (groundChecker.isGrounded)
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else
+        {
+            animator.SetBool("isJumping", true);
         }
 
     }
